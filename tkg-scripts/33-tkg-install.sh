@@ -23,7 +23,7 @@ if [[ "$EUID" -eq 0 ]]; then
 fi
 
 rm -rf ${HOME}/.kube-tkg ${HOME}/.kube
-rm -rf ${HOME}/.tanzu ${HOME}/.config/tanzu  ${HOME}.cache/tanzu
+rm -rf ${HOME}/.tanzu ${HOME}/.config/tanzu  ${HOME}.cache/tanzu ${HOME}/.local/share/tanzu-cli ${HOME}/.local/share/tkg
 
 #--------------------------------------------------------------------------------------
 # Install Tanzu Kubernetes Grid
@@ -35,7 +35,7 @@ tar -xvf tanzu-cli-bundle-linux-amd64.tar
 cd cli
 
 sudo rm -f /usr/local/bin/tanzu
-sudo install -o root -g root -m 0755 core/v1.4.0/tanzu-core-linux_amd64 /usr/local/bin/tanzu
+sudo install -o root -g root -m 0755 core/v0.11.1/tanzu-core-linux_amd64 /usr/local/bin/tanzu
 
 #--------------------------------------------------------------------------------------
 # Install the Carvel Tools - ytt, kapp, kbld, imgpkg.
