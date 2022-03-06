@@ -11,9 +11,23 @@
 # juliusn - Sun Dec  5 08:48:39 EST 2021 - first version
 #--------------------------------------------------------------------------------------
 
-if test -f "${HOME}/scripts/.index";
+#--------------------------------------------------------------------------------------
+# Tanzu Kubernetes Grid  - previous build versions
+# TKG_VERSION="1.4.0"
+# K8S_VERSION="1.21.2"
+# OVA_FILE="${HOME}/ova/photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova"
+#--------------------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------------------
+# Tanzu Kubernetes Grid  - current build versions
+# TKG_VERSION="1.5.1"
+# K8S_VERSION="1.22.5"
+# OVA_FILE="${HOME}/ova/photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4.ova"
+#--------------------------------------------------------------------------------------
+
+if test -f "${HOME}/scripts/.tkg_index";
 then
-    export INDEX=`cat ${HOME}/scripts/.index`
+    export INDEX=`cat ${HOME}/scripts/.tkg_index`
 else
     export INDEX=0
 fi
@@ -115,8 +129,7 @@ export NODE_OS_VERSION="3"
 
 # Obtain current IP for Oracle Linux / Ubuntu 
 export MY_IP_ADDRESS=`ifconfig ens192 | grep 'inet ' | awk '{print $2}'`
-# Optional set a static IP for the custom Linux VM
-export MY_STATIC_IP="192.168.111.128"
+export MY_STATIC_IP="192.168.111.129"
 export MY_DOMAIN_NAME="flexlab.local"
 
 # Obtain current IP for Photon OS

@@ -31,9 +31,9 @@ rm -rf ${HOME}/.tanzu ${HOME}/.config/tanzu  ${HOME}.cache/tanzu ${HOME}/.local/
 
 echo "Installing Tanzu Kubernetes Grid from ${HOME}/tkg"
 cd ${HOME}/tkg
-tar -xvf tanzu-cli-bundle-linux-amd64.tar
-cd cli
+tar xzvf tanzu-cli-bundle-linux-amd64.tar.gz
 
+cd cli
 sudo rm -f /usr/local/bin/tanzu
 sudo install -o root -g root -m 0755 core/v0.11.1/tanzu-core-linux_amd64 /usr/local/bin/tanzu
 

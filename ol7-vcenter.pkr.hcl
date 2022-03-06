@@ -104,7 +104,7 @@ build {
     inline = [
       "chown -R tkg:tkg /home/tkg/ova",
       "chown -R tkg:tkg /home/tkg/tkg",
-      "su - tkg -c /home/tkg/scripts/33-tkg-install.sh",
+      # "su - tkg -c /home/tkg/scripts/33-tkg-install.sh",
       "su - tkg -c /home/tkg/scripts/36-configure-password-store.sh"
     ]
   }

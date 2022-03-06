@@ -30,7 +30,7 @@ echo "#--------------------------------------------------------------"
 echo "# Starting 50-vsphere-deploy-k8s-ova.sh" 
 echo "#--------------------------------------------------------------"
 
-echo $$ > ${HOME}/scripts/.index
+echo $$ > ${HOME}/scripts/.tkg_index
 unset VSPHERE_FOLDER
 unset VSPHERE_RESOURCE_POOL
 source ${HOME}/scripts/00-tkg-build-variables.sh
