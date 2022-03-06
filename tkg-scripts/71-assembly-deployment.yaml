@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assembly-deployment
+  namespace: assembly
+  labels:
+    app: assembly-webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: assembly-webapp
+  template:
+    metadata:
+      name: assembly-webapp-pod
+      labels:
+        app: assembly-webapp
+    spec:
+      containers:
+      - name: assembly-webapp
+        image: jmnicolescu/assembly-webapp:latest
+        ports:
+        - containerPort: 8080
+        securityContext:
+          runAsUser: 1000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: assembly-service
+  namespace: assembly
+  labels:
+    app: assembly-webapp
+spec:
+  type: LoadBalancer 
+  selector:
+    app: assembly-webapp
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
