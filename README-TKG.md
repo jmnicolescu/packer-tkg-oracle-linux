@@ -43,9 +43,9 @@ Tanzu Kubernetes Grid deployment options:
 #### Tanzu Kubernetes Grid component versions:
 
 
-1. Tanzu Kubernetes Grid      v1.5.1
-2. kubectl                    v1.22.5
-3. Kubernetes Node OS OVA     photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4.ova
+1. Tanzu Kubernetes Grid      v1.4.2
+2. kubectl                    v1.21.8
+3. Kubernetes Node OS OVA     photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova
 
 
 #### Directory structure:
@@ -56,14 +56,14 @@ Tanzu Kubernetes Grid deployment options:
   ├── http_directory                                        <-- kickstart file location
   │   └── oracle-linux
   │       └── ol7-kickstart.cfg
-  ├── iso                                                   <-- Oracle Linux ISO file
-  │   └── OracleLinux-R7-U9-Server-x86_64-dvd.iso
+  ├── iso                                                   
+  │   └── OracleLinux-R7-U9-Server-x86_64-dvd.iso           <-- Oracle Linux ISO file
   ├── ova                                                   <-- OVA directory
   │   ├── controller-21.1.2-9124.ova
-  │   └── photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4.ova
+  │   └── photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova
   ├── tkg
-  │   └── tanzu-cli-bundle-linux-amd64.tar.gz               <-- Tanzu Kubernetes Grid CLI
-  │
+  │   ├── kubectl-linux-v1.21.8+vmware.1-142.gz             <-- Compatible kubectl
+  │   └── tanzu-cli-bundle-linux-amd64.tar                  <-- Tanzu Kubernetes Grid CLI
   └── tkg-scripts                                           <-- Configuration scripts
 
 ```
@@ -74,23 +74,25 @@ Tanzu Kubernetes Grid deployment options:
     - [Download Oracle Linux R7 Installation Media](https://yum.oracle.com/ISOS/OracleLinux/OL7/u9/x86_64/OracleLinux-R7-U9-Server-x86_64-dvd.iso)
     - copy OracleLinux-R7-U9-Server-x86_64-dvd.iso to the iso directory.
 
-2. Photon v3 Kubernetes v1.22.5 OVA: photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4.ova
+2. Photon v3 Kubernetes v1.21.8 OVA: photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova
     - [Download Kubernetes node OS OVA](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-151&productId=988)
-    - copy photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4.ova to the ova directory
+    - copy photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova to the ova directory
 
-3. Tanzu Kubernetes Grid, Tanzu CLI bundle: tanzu-cli-bundle-linux-amd64.tar
-    - [Download Tanzu CLI bundle](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-151&productId=988)
+3. Tanzu Kubernetes Grid, Tanzu CLI bundle v1.4.2: tanzu-cli-bundle-linux-amd64.tar
+    - [Download Tanzu CLI bundle](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-142&productId=988)
     - copy tanzu-cli-bundle-linux-amd64.tar to tkg directory
+
+4. Kubectl, kubectl cluster cli v1.21.8 for Linux: kubectl-linux-v1.21.8+vmware.1-142.gz      
+    - [Download kubectl](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-142&productId=988)
+    - copy kubectl-linux-v1.21.8+vmware.1-142.gz to tkg directory
+
 
 Note: Tanzu Kubernetes Grid, kubectl version and the matching Photon v3 Kubernetes OVA version:
 
-1. Current version: tkg v1.5.1  -->>  kubectl v1.22.5  -->>  photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4.ova
-[Download tkg v1.5.1](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-151&productId=988)
-
-2. Previous version: tkg v1.4.2  -->>  kubectl v1.21.8  -->> photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova
+1. Version: tkg v1.4.2  -->>  kubectl v1.21.8  -->> photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova
 [Download tkg v1.4.0](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-142&productId=988)
 
-3. Previous version: tkg v1.4.0  -->>  kubectl v1.21.2  -->> photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
+2. Version: tkg v1.4.0  -->>  kubectl v1.21.2  -->> photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
 [Download tkg v1.4.0](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-140&productId=988)
 
 
@@ -191,7 +193,16 @@ With the exception of vCenter credentials, all TKG Build Variable are set in 00-
 Please review and update [Tanzu Kubernetes Grid - Build Variable Definition](scripts/00-TKG-build-variables.sh) file.
 
 
-#### TKG Deployment option #2 - TKG deployment to VMware vSphere
+#### Network Considerations
+
+Kube-Vip is used solely by the cluster’s API server.
+
+To load-balance workloads on vSphere, there are two deployment options available:
+1. TKG deployment using Metallb Load Balancer
+2. TKG deployment using NSX Advanced Load Balancer
+
+
+#### TKG Deployment option #1 - TKG deployment to VMware vSphere using Metallb to load-balance workloads.
 
 Login to the Linux VM as user TKG, chnage directory to scripts and run the following scripts:
 
@@ -232,7 +243,7 @@ sudo ./30-update-etc-hosts.sh
 
 ```
 
-#### TKG Depolyment option #3 - TKG deployment to VMware vSphere using NSX Advanced Load Balancer
+#### TKG Depolyment option #2 - TKG deployment to VMware vSphere using NSX Advanced Load Balancer to load-balance workloads.
 
 Login to the Linux VM as user TKG, chnage directory to scripts and run the following scripts:
   

@@ -46,6 +46,7 @@ sed -i "s/^CLUSTER_NAME.*/CLUSTER_NAME: ${WKLD_CLUSTER_NAME}/" ${HOME}/scripts/$
 # Update the number of worker nodes for the cluster 
 cat >> ${HOME}/scripts/${WKLD_CLUSTER_NAME}-config.yaml <<EOF
 WORKER_MACHINE_COUNT: "3"
+ENABLE_DEFAULT_STORAGE_CLASS: "true"
 EOF
 
 echo "Copy cluster configuration file to the default tkg location."

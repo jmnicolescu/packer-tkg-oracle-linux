@@ -31,4 +31,4 @@ docker builder prune --all --force
 #  - all volumes not used by at least one container
 #  - all images without at least one container associated to them
 #  - all build cache
-# docker system prune -a --volumes --force
+docker system prune -a --volumes --force

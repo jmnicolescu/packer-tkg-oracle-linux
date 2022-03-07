@@ -35,6 +35,12 @@ unset VSPHERE_FOLDER
 unset VSPHERE_RESOURCE_POOL
 source ${HOME}/scripts/00-tkg-build-variables.sh
 
+if [ ! -f ${OVA_FILE} ]; then
+    echo "Expecting OVA file in ${OVA_FILE}"
+    echo "Exiting ..."
+    exit 1
+fi
+
 export GOVC_URL="https://$(pass provider_vcenter_hostname)"
 export GOVC_USERNAME=$(pass provider_vcenter_username)
 export GOVC_PASSWORD=$(pass provider_vcenter_password)

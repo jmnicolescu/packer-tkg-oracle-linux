@@ -10,6 +10,9 @@
 # https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/1.4/vmware-tanzu-kubernetes-grid-14/GUID-install-cli.html#install-carvel
 #--------------------------------------------------------------------------
 
+TANZU_CLI_BUNDLE="tanzu-cli-bundle-linux-amd64.tar"
+COMPATIBLE_KUBECTL="kubectl-linux-v1.21.8+vmware.1-142.gz"
+
 echo "#--------------------------------------------------------------"
 echo "# Starting 33-tkg-install.sh"
 echo "#--------------------------------------------------------------"
@@ -22,45 +25,71 @@ if [[ "$EUID" -eq 0 ]]; then
   exit 1
 fi
 
+if [ ! -f ${HOME}/tkg/${TANZU_CLI_BUNDLE} ]; then
+    echo "Expecting Tanzu CLI bundle in ${HOME}/tkg/${TANZU_CLI_BUNDLE}"
+    echo "Exiting ..."
+    exit 1
+fi
+
+if [ ! -f ${HOME}/tkg/${COMPATIBLE_KUBECTL} ]; then
+    echo "Expecting the compatible kubectl in ${HOME}/tkg/${COMPATIBLE_KUBECTL}"
+    echo "Exiting ..."
+    exit 1
+fi
+
 rm -rf ${HOME}/.kube-tkg ${HOME}/.kube
 rm -rf ${HOME}/.tanzu ${HOME}/.config/tanzu  ${HOME}.cache/tanzu ${HOME}/.local/share/tanzu-cli ${HOME}/.local/share/tkg
 
 #--------------------------------------------------------------------------------------
-# Install Tanzu Kubernetes Grid
+# Install Tanzu Kubernetes Grid cli
 #--------------------------------------------------------------------------------------
 
 echo "Installing Tanzu Kubernetes Grid from ${HOME}/tkg"
 cd ${HOME}/tkg
-tar xzvf tanzu-cli-bundle-linux-amd64.tar.gz
 
-cd cli
+tar xvf ${TANZU_CLI_BUNDLE}
 sudo rm -f /usr/local/bin/tanzu
-sudo install -o root -g root -m 0755 core/v0.11.1/tanzu-core-linux_amd64 /usr/local/bin/tanzu
+sudo install -o root -g root -m 0755 cli/core/v1.4.2/tanzu-core-linux_amd64 /usr/local/bin/tanzu
+
+# tanzu cli update
+tanzu update
+
+# remove existing plugins from any previous CLI installations
+tanzu plugin clean
+
+echo "Installing all the plugins for the specific TKG release ${TKG_VERSION}"
+tanzu plugin install --local cli all
+
+echo "Checking Tanzu Kubernetes Grid version and installed plugins."
+tanzu version
+tanzu plugin list
 
 #--------------------------------------------------------------------------------------
 # Install the Carvel Tools - ytt, kapp, kbld, imgpkg.
 #--------------------------------------------------------------------------------------
 
-# - We are installing the latest Carvel tools in 31-tkg-download-tanzu.sh
-# 
-# echo "Installing the Carvel Tools - ytt, kapp, kbld, imgpkg."
-# for file in $(ls *.gz)
-# do
-#   gunzip -f $file
-#   echo "Installing /usr/local/bin/$(echo $file | awk -F - '{print $1}')"
-#   sudo install -o root -g root -m 0755 ${file::-3} /usr/local/bin/$(echo $file | awk -F - '{print $1}')
-# done
+echo "Installing the Carvel Tools - ytt, kapp, kbld, imgpkg."
+cd ${HOME}/tkg/cli
 
-# Install the tanzu CLI plugins
-tanzu init
+for file in $(ls *.gz)
+do
+  gunzip -f $file
+  echo "Installing /usr/local/bin/$(echo $file | awk -F - '{print $1}')"
+  sudo install -o root -g root -m 0755 ${file::-3} /usr/local/bin/$(echo $file | awk -F - '{print $1}')
+done
 
-echo "Checking Tanzu Kubernetes Grid version nad installed plugins."
-tanzu version
-tanzu plugin list
-# To avoid Error: plugin "management-cluster" does not exist, install/re-install plugin management-cluster
-tanzu plugin install management-cluster
+#--------------------------------------------------------------------------------------
+# Install kubectl - kubectl-linux-v1.21.8+vmware.1-142
+#--------------------------------------------------------------------------------------
 
-# Making sure that we are using the correct version of kubectl
-sudo cp /usr/local/bin/kubectl-${K8S_VERSION} /usr/local/bin/kubectl
+echo "Installing the compatible kubectl version from ${HOME}/tkg"
+cd ${HOME}/tkg
+
+gunzip -c ${COMPATIBLE_KUBECTL} > kubectl-vmware
+sudo install -o root -g root -m 0755 kubectl-vmware /usr/local/bin/kubectl-vmware
+sudo install -o root -g root -m 0755 kubectl-vmware /usr/local/bin/kubectl
+
+# version check
+kubectl version
 
 echo "Done33-tkg-install.sh"

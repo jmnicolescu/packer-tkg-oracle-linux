@@ -43,9 +43,9 @@ Tanzu Kubernetes Grid deployment options:
 #### Tanzu Kubernetes Grid component versions:
 
 
-1. Tanzu Kubernetes Grid      v1.5.1
-2. kubectl                    v1.22.5
-3. Kubernetes Node OS OVA     photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4.ova
+1. Tanzu Kubernetes Grid      v1.4.2
+2. kubectl                    v1.21.8
+3. Kubernetes Node OS OVA     photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova
 
 
 #### Directory structure:
@@ -56,16 +56,16 @@ Tanzu Kubernetes Grid deployment options:
   ├── http_directory                                        <-- kickstart file location
   │   └── oracle-linux
   │       └── ol7-kickstart.cfg
-  ├── iso                                                   <-- Oracle Linux ISO file
-  │   └── OracleLinux-R7-U9-Server-x86_64-dvd.iso
-  ├── ova                                                   <-- OVA files location
-  │   ├── controller-21.1.2-9124.ova 
-  │   ├── photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
-  │ 
+  ├── iso                                                   
+  │   └── OracleLinux-R7-U9-Server-x86_64-dvd.iso           <-- Oracle Linux ISO file
+  ├── ova                                                   <-- OVA directory
+  │   ├── controller-21.1.2-9124.ova
+  │   └── photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova
   ├── tkg
-  │   └── tanzu-cli-bundle-linux-amd64.tar  
-  │                
-  └── tkg-scripts                                           <-- custom install scripts
+  │   ├── kubectl-linux-v1.21.8+vmware.1-142.gz             <-- Compatible kubectl
+  │   └── tanzu-cli-bundle-linux-amd64.tar                  <-- Tanzu Kubernetes Grid CLI
+  └── tkg-scripts                                           <-- Configuration scripts
+
 ```
 
 #### Software Requirements:
@@ -74,23 +74,25 @@ Tanzu Kubernetes Grid deployment options:
     - [Download Oracle Linux R7 Installation Media](https://yum.oracle.com/ISOS/OracleLinux/OL7/u9/x86_64/OracleLinux-R7-U9-Server-x86_64-dvd.iso)
     - copy OracleLinux-R7-U9-Server-x86_64-dvd.iso to the iso directory.
 
-2. Photon v3 Kubernetes v1.22.5 OVA: photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4.ova
+2. Photon v3 Kubernetes v1.21.8 OVA: photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova
     - [Download Kubernetes node OS OVA](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-151&productId=988)
-    - copy photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4.ova to the ova directory
+    - copy photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova to the ova directory
 
-3. Tanzu Kubernetes Grid, Tanzu CLI bundle: tanzu-cli-bundle-linux-amd64.tar
-    - [Download Tanzu CLI bundle](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-151&productId=988)
+3. Tanzu Kubernetes Grid, Tanzu CLI bundle v1.4.2: tanzu-cli-bundle-linux-amd64.tar
+    - [Download Tanzu CLI bundle](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-142&productId=988)
     - copy tanzu-cli-bundle-linux-amd64.tar to tkg directory
+
+4. Kubectl, kubectl cluster cli v1.21.8 for Linux: kubectl-linux-v1.21.8+vmware.1-142.gz      
+    - [Download kubectl](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-142&productId=988)
+    - copy kubectl-linux-v1.21.8+vmware.1-142.gz to tkg directory
+
 
 Note: Tanzu Kubernetes Grid, kubectl version and the matching Photon v3 Kubernetes OVA version:
 
-1. Current version: tkg v1.5.1  -->>  kubectl v1.22.5  -->>  photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4.ova
-[Download tkg v1.5.1](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-151&productId=988)
-
-2. Previous version: tkg v1.4.2  -->>  kubectl v1.21.8  -->> photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova
+1. Version: tkg v1.4.2  -->>  kubectl v1.21.8  -->> photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova
 [Download tkg v1.4.0](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-142&productId=988)
 
-3. Previous version: tkg v1.4.0  -->>  kubectl v1.21.2  -->> photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
+2. Version: tkg v1.4.0  -->>  kubectl v1.21.2  -->> photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
 [Download tkg v1.4.0](https://customerconnect.vmware.com/downloads/details?downloadGroup=TKG-140&productId=988)
 
 
@@ -190,34 +192,17 @@ Setting the TKG build environment:
 With the exception of vCenter credentials, all TKG Build Variable are set in 00-TKG-build-variables.sh
 Please review and update [Tanzu Kubernetes Grid - Build Variable Definition](scripts/00-TKG-build-variables.sh) file.
 
-#### TKG Deployment option #1 - TKG deployment to Docker
 
-Login to the Linux built VM as user TKG, chnage directory to scripts and run the following scripts:
-  
-```bash
-cd scripts
+#### Network Considerations
 
-# Update host entry in the /etc/hosts file using the current DHCP assigned IP
- sudo ./30-update-etc-hosts.sh
+Kube-Vip is used solely by the cluster’s API server.
 
-# Reset Environment and Install Tanzu Kubernetes Grid
-./33-TKG-install.sh
+To load-balance workloads on vSphere, there are two deployment options available:
+1. TKG deployment using Metallb Load Balancer
+2. TKG deployment using NSX Advanced Load Balancer
 
-# Run the following script to create the TKG Management Cluster 
-./42-TKG-docker-deploy-management.sh
 
-# Run the following script to create the TKG Workload Cluster 
-./43-TKG-docker-deploy-workload.sh
-
-# Deploy Metallb Load Balancer
-./70-demo-deploy-metallb.sh
-
-# Deploy sample demo applications including Fluent Bit.
-./71-demo-deploy-assembly-webapp.sh
-
-```
-
-#### TKG Deployment option #2 - TKG deployment to VMware vSphere
+#### TKG Deployment option #1 - TKG deployment to VMware vSphere using Metallb to load-balance workloads.
 
 Login to the Linux VM as user TKG, chnage directory to scripts and run the following scripts:
 
@@ -233,7 +218,7 @@ pass insert provider_vcenter_password
 sudo ./30-update-etc-hosts.sh
 
 # Reset Environment and Install Tanzu Kubernetes Grid
-./33-TKG-install.sh
+./33-tkg-install.sh
 
 # vSphere Requirerments, Deploy Kubernetes node OS VM 
 ./50-vsphere-deploy-k8s-ova
@@ -251,14 +236,14 @@ sudo ./30-update-etc-hosts.sh
 ./71-demo-deploy-assembly-webapp.sh
 
 # Install Fluent Bit using TKG Tanzu Packages
-./72-demo-TKG-tanzu-packages.sh
+./72-demo-tkg-tanzu-packages.sh
 
 # Deploy Kubernetes Dashboard
 ./73-demo-deploy-k8s-dashboard.sh
 
 ```
 
-#### TKG Depolyment option #3 - TKG deployment to VMware vSphere using NSX Advanced Load Balancer
+#### TKG Depolyment option #2 - TKG deployment to VMware vSphere using NSX Advanced Load Balancer to load-balance workloads.
 
 Login to the Linux VM as user TKG, chnage directory to scripts and run the following scripts:
   
@@ -274,7 +259,7 @@ pass insert provider_vcenter_password
 sudo ./30-update-etc-hosts.sh
 
 # Reset Environment and Install Tanzu Kubernetes Grid
-./33-TKG-install.sh
+./33-tkg-install.sh
 
 # vSphere Requirerments, Deploy Kubernetes node OS VM 
 ./50-vsphere-deploy-k8s-ova
@@ -295,7 +280,7 @@ sudo ./30-update-etc-hosts.sh
 ./71-demo-deploy-assembly-webapp.sh
 
 # Install Fluent Bit using TKG Tanzu Packages
-./72-demo-TKG-tanzu-packages.sh
+./72-demo-tkg-tanzu-packages.sh
 
 # Deploy Kubernetes Dashboard
 ./73-demo-deploy-k8s-dashboard.sh
@@ -307,7 +292,7 @@ sudo ./30-update-etc-hosts.sh
 #### To access TKG management cluster, login as TKG user and run:
 
 ```bash
-export MGMT_CLUSTER_NAME="TKG-management"
+export MGMT_CLUSTER_NAME="tkg-management"
 export KUBECONFIG=${HOME}/.kube/config-${MGMT_CLUSTER_NAME}
 kubectl get nodes -A
 ```
@@ -316,7 +301,7 @@ The management cluster kubeconfig file `${HOME}/.kube/config-${MGMT_CLUSTER_NAME
 If you need to recapture the management cluster’s kubeconfig, execute the following commands:
 
 ```bash
-export MGMT_CLUSTER_NAME="TKG-management"
+export MGMT_CLUSTER_NAME="tkg-management"
 export KUBECONFIG=${HOME}/.kube/config-${MGMT_CLUSTER_NAME}
 tanzu management-cluster kubeconfig get --admin
 kubectl config use-context ${MGMT_CLUSTER_NAME}-admin@${MGMT_CLUSTER_NAME}
@@ -326,7 +311,7 @@ kubectl get nodes -A
 #### To access TKG workload cluster, login as TKG user and run:
 
 ```bash 
-  export WKLD_CLUSTER_NAME="TKG-workload"
+  export WKLD_CLUSTER_NAME="tkg-workload"
   export KUBECONFIG=${HOME}/.kube/config-${WKLD_CLUSTER_NAME}
   tanzu cluster kubeconfig get ${WKLD_CLUSTER_NAME} --admin
   kubectl config use-context ${WKLD_CLUSTER_NAME}-admin@${WKLD_CLUSTER_NAME}
@@ -337,7 +322,7 @@ The workload cluster kubeconfig file `${HOME}/.kube/config-${WKLD_CLUSTER_NAME}`
 If you need to recapture the workload cluster’s kubeconfig, execute the following commands:
 
 ```bash 
-  export WKLD_CLUSTER_NAME="TKG-workload"
+  export WKLD_CLUSTER_NAME="tkg-workload"
   tanzu cluster kubeconfig get ${WKLD_CLUSTER_NAME} --admin
   kubectl config use-context ${WKLD_CLUSTER_NAME}-admin@${WKLD_CLUSTER_NAME}
   kubectl get nodes -A
@@ -366,5 +351,5 @@ To recover from a failed deployment, wipe all previous TKG configurations and re
 ./34-docker-cleanup.sh
 
 # Wipe all previous TKG configurations, Reset Environment and Install Tanzu Kubernetes Grid
-./33-TKG-install.sh
+./33-tkg-install.sh
 ```

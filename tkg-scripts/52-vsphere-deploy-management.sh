@@ -121,7 +121,7 @@ mkdir -p  ~/.config/tanzu/tkg/clusterconfigs
 cp ${HOME}/scripts/${MGMT_CLUSTER_NAME}-config.yaml ${HOME}/.config/tanzu/tkg/clusterconfigs/${MGMT_CLUSTER_NAME}-config.yaml
 
 echo "Create management cluster [ ${MGMT_CLUSTER_NAME} ]."
-tanzu management-cluster create ${MGMT_CLUSTER_NAME}  --file ${HOME}/scripts/${MGMT_CLUSTER_NAME}-config.yaml --verbose 10 --ceip-participation=false --timeout 2h
+tanzu management-cluster create ${MGMT_CLUSTER_NAME}  --file ${HOME}/scripts/${MGMT_CLUSTER_NAME}-config.yaml --verbose 10 --ceip-participation=false --timeout 60m
 
 # Check management cluster details
 tanzu management-cluster get

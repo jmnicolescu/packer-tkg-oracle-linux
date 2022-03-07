@@ -20,9 +20,9 @@
 
 #--------------------------------------------------------------------------------------
 # Tanzu Kubernetes Grid  - current build component versions
-# TKG_VERSION="1.5.1"
-# K8S_VERSION="1.22.5"
-# OVA_FILE="${HOME}/ova/photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4.ova"
+# TKG_VERSION="1.4.2"
+# K8S_VERSION="1.21.8"
+# OVA_FILE="${HOME}/ova/photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova"
 #--------------------------------------------------------------------------------------
 
 if test -f "${HOME}/scripts/.tkg_index";
@@ -45,8 +45,8 @@ fi
 export NETWORK_TANZU_MANAGEMENT="tanzu-management"
 export NETWORK_TANZU_WORKLOAD="tanzu-workload"
 
-export TKG_VERSION="1.5.1"
-export K8S_VERSION="1.22.5"
+export TKG_VERSION="1.4.2"
+export K8S_VERSION="1.21.8"
 export KIND_VERSION="0.11.1"
 export OCTANT_VERSION="0.25.0"
 
@@ -114,8 +114,8 @@ export NSXALB_AVI_MANAGEMENT_CLUSTER_VIP_NETWORK_NAME=${NETWORK_TANZU_WORKLOAD}
 export NSXALB_AVI_MANAGEMENT_CLUSTER_VIP_NETWORK_CIDR="192.168.131.0/24"
 
 # K8s node VM settings for Photon v3 Kubernetes v1.22.5 OVA
-export OVA_VM_NAME="photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4"
-export OVA_FILE="${HOME}/ova/photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4.ova"
+export OVA_VM_NAME="photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f"
+export OVA_FILE="${HOME}/ova/photon-3-kube-v1.21.8+vmware.1-tkg.2-49e70fcb8bdd006b8a1cf7823484f98f.ova"
 export OVA_JSON_FILE="${HOME}/ova/kubernetes-node-ova-specs.json"
 export NODE_OS_NAME="photon"
 export NODE_OS_VERSION="3"

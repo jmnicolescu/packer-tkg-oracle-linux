@@ -47,6 +47,7 @@ sed -i "s/^CLUSTER_PLAN.*/CLUSTER_PLAN: prod/" ${HOME}/scripts/${WKLD_CLUSTER_NA
 cat >> ${HOME}/scripts/${WKLD_CLUSTER_NAME}-config.yaml <<EOF
 WORKER_MACHINE_COUNT: "3"
 CONTROL_PLANE_MACHINE_COUNT: "3"
+ENABLE_DEFAULT_STORAGE_CLASS: "true"
 EOF
 
 echo "Copy cluster configuration file to the default tkg location."
