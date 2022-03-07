@@ -52,12 +52,13 @@ sudo install -o root -g root -m 0755 core/v0.11.1/tanzu-core-linux_amd64 /usr/lo
 # done
 
 # Install the tanzu CLI plugins
-tanzu plugin install --local . all
 tanzu init
 
-# Checking Tanzu version
+echo "Checking Tanzu Kubernetes Grid version nad installed plugins."
 tanzu version
 tanzu plugin list
+# To avoid Error: plugin "management-cluster" does not exist, install/re-install plugin management-cluster
+tanzu plugin install management-cluster
 
 # Making sure that we are using the correct version of kubectl
 sudo cp /usr/local/bin/kubectl-${K8S_VERSION} /usr/local/bin/kubectl

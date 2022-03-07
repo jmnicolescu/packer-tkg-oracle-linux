@@ -85,12 +85,19 @@ tanzu cluster list --include-management-cluster
 cat << EOF
 
 #----------------------------------------------------------------------------
-# To access the workload cluster [ ${WKLD_CLUSTER_NAME} ] use:
-#
-# export KUBECONFIG=${HOME}/.kube/config-${WKLD_CLUSTER_NAME}
-#
-# kubectl config use-context ${WKLD_CLUSTER_NAME}-admin@${WKLD_CLUSTER_NAME}
-# kubectl config current-context
+# To access the management cluster [ ${WKLD_CLUSTER_NAME} ] use:
+#----------------------------------------------------------------------------
+
+export KUBECONFIG=${HOME}/.kube/config-${WKLD_CLUSTER_NAME}
+kubectl get nodes -A
+
+If you need to recapture the management cluster's kubeconfig, execute the following commands:
+
+export KUBECONFIG=${HOME}/.kube/config-${WKLD_CLUSTER_NAME}
+tanzu management-cluster kubeconfig get --admin
+kubectl config use-context ${WKLD_CLUSTER_NAME}-admin@${WKLD_CLUSTER_NAME}
+kubectl get nodes -A
+
 #----------------------------------------------------------------------------
 
 EOF

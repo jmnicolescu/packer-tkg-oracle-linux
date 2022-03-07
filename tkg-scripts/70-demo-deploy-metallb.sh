@@ -9,6 +9,7 @@
 # juliusn - Sun Dec  5 08:48:39 EST 2021 - first version
 #--------------------------------------------------------------------------
 
+METALLB_VERSION=0.12.1
 source ${HOME}/scripts/00-tkg-build-variables.sh
 
 if [ ! -f ${HOME}/.kube/config-${WKLD_CLUSTER_NAME} ]; then
@@ -24,9 +25,9 @@ if [[ "$EUID" -eq 0 ]]; then
   exit 1
 fi
 
-echo "Install MetalLB, apply the manifest"
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/namespace.yaml
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/metallb.yaml
+echo "Installing MetallB version ${METALLB_VERSION}."
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v${METALLB_VERSION}/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v${METALLB_VERSION}/manifests/metallb.yaml
 
 echo "Waiting for pods to be created."
 for POD in `kubectl -n metallb-system get pods | grep -v NAME | awk '{print $1}'`

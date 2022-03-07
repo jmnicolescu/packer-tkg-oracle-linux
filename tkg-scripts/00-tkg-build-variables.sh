@@ -12,14 +12,14 @@
 #--------------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------------
-# Tanzu Kubernetes Grid  - previous build versions
+# Tanzu Kubernetes Grid  - previous build component versions
 # TKG_VERSION="1.4.0"
 # K8S_VERSION="1.21.2"
 # OVA_FILE="${HOME}/ova/photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova"
 #--------------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------------
-# Tanzu Kubernetes Grid  - current build versions
+# Tanzu Kubernetes Grid  - current build component versions
 # TKG_VERSION="1.5.1"
 # K8S_VERSION="1.22.5"
 # OVA_FILE="${HOME}/ova/photon-3-kube-v1.22.5+vmware.1-tkg.2-790a7a702b7fa129fb96be8699f5baa4.ova"
@@ -81,7 +81,7 @@ export MGMT_VSPHERE_CONTROL_PLANE_ENDPOINT="192.168.131.132"
 export WKLD_VSPHERE_CONTROL_PLANE_ENDPOINT="192.168.131.133"
 
 # METALLB_VIP_RANGE to be defined on TANZU_DEPLOY_NETWORK
-export METALLB_VIP_RANGE="192.168.131.240-192.168.131.250"
+export METALLB_VIP_RANGE="192.168.131.241-192.168.131.250"
 
 # ----------------------------------------------------------------------------------------
 # Deployment Option : Using NSX ALB.

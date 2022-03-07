@@ -154,11 +154,18 @@ cat << EOF
 
 #----------------------------------------------------------------------------
 # To access the management cluster [ ${MGMT_CLUSTER_NAME} ] use:
-#
-# export KUBECONFIG=${HOME}/.kube/config-${MGMT_CLUSTER_NAME}
-#
-# kubectl config use-context ${MGMT_CLUSTER_NAME}-admin@${MGMT_CLUSTER_NAME}
-# kubectl config current-context
+#----------------------------------------------------------------------------
+
+export KUBECONFIG=${HOME}/.kube/config-${MGMT_CLUSTER_NAME}
+kubectl get nodes -A
+
+If you need to recapture the management cluster's kubeconfig, execute the following commands:
+
+export KUBECONFIG=${HOME}/.kube/config-${MGMT_CLUSTER_NAME}
+tanzu management-cluster kubeconfig get --admin
+kubectl config use-context ${MGMT_CLUSTER_NAME}-admin@${MGMT_CLUSTER_NAME}
+kubectl get nodes -A
+
 #----------------------------------------------------------------------------
 
 EOF

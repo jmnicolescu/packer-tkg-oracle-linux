@@ -54,4 +54,3 @@ tanzu package available list ${DEMO_FLUENT_BIT_PACKAGE}
 fluentbit_version=$(tanzu package available list ${DEMO_FLUENT_BIT_PACKAGE} -o json | jq -r '.[0].version | select(. !=null)')
 tanzu package install fluent-bit --package-name ${DEMO_FLUENT_BIT_PACKAGE} --version "${fluentbit_version}"
 tanzu package installed list
-kubectl -n tanzu-system-loggin get all
