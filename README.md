@@ -19,11 +19,11 @@ There two steps involved in deploying Tanzu Kubernetes Grid
 
 Tanzu Kubernetes Grid deployment options:
 
-- Deployment #1 - Tanzu Kubernetes Grid Deployment to vSphere 
+- Deployment #1 - Tanzu Kubernetes Grid Deployment to VMware vSphere using Metallb to load-balance workloads. 
     - Deploy TKG Management Cluster to vSphere as the target infrastructure provider 
     - Deploy TKG Workload Cluster
 
-- Deployment #2 - Tanzu Kubernetes Grid Deployment to vSphere while using NSX Advanced Load Balancer (NSX ALB)
+- Deployment #2 - Tanzu Kubernetes Grid Deployment to VMware vSphere using NSX Advanced Load Balancer to load-balance workloads.
     - Deploy TKG Management Cluster to vSphere as the target infrastructure provider
     - Deploy TKG Workload Cluster
 
